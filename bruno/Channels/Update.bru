@@ -1,0 +1,26 @@
+meta {
+  name: Update
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{host}}/channels/671d1bb1aa97555dea6993b3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Email notification channel - Google",
+    "type": "email",
+    "is_active": true,
+    "config": {
+      "smtp_server": "string",
+      "smtp_port": 0,
+      "username": "user@example.com",
+      "password": "string",
+      "use_tls": true
+    }
+  }
+}

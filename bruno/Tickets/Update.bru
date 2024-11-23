@@ -1,0 +1,31 @@
+meta {
+  name: Update
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{host}}/ticket/6718d4d0bcef459d4ed0e5c9/message
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "content": "string",
+    "sender": "string",
+    "timestamp": "2024-10-25T14:10:42.146Z",
+    "channel": {
+      "name": "string",
+      "type": "email",
+      "is_active": true,
+      "config": {
+        "smtp_server": "string",
+        "smtp_port": 0,
+        "username": "user@example.com",
+        "password": "string",
+        "use_tls": true
+      }
+    }
+  }
+}

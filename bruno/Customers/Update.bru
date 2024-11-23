@@ -1,0 +1,33 @@
+meta {
+  name: Update
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{host}}/customers/67210117aec173dbbeaea7eb
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+     "contact_methods":[
+        {
+           "type":"email",
+           "value":"jane@example.com",
+           "is_preferred":true
+        },
+        {
+           "type":"phone",
+           "value":"+1234567890",
+           "is_preferred":false
+        },
+        {
+           "type":"twitter",
+           "value":"@jane_doe",
+           "is_preferred":false
+        }
+     ]
+  }
+}

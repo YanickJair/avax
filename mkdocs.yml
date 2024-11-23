@@ -1,0 +1,7 @@
+site_name: Omnichannel Support System
+
+theme:
+  name: "material"
+
+plugins:
+  - mkdocstrings

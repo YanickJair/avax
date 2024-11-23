@@ -1,0 +1,32 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/ticket
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "customer_id": "670cffb69f94a9d0e522ae6e",
+    "assigned_agent_id": "670cffb69f94a9d0e522ae6e",
+    "status": "open",
+    "priority": "medium",
+    "category": "billing",
+    "subject": "string",
+    "messages": [
+      {
+        "content": "string",
+        "sender": "string",
+        "channel_id": "671d1bb1aa97555dea6993b3"
+      }
+    ],
+    "tags": [
+      "string"
+    ]
+  }
+}

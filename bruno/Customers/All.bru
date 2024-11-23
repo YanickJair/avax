@@ -1,0 +1,16 @@
+meta {
+  name: All
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/customers?is_active=true
+  body: none
+  auth: none
+}
+
+params:query {
+  is_active: true
+  ~search: john
+}

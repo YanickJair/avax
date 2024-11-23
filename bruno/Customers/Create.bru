@@ -1,0 +1,43 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{host}}/customers
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+     "name":"John Doe",
+     "contact_methods":[
+        {
+           "type":"email",
+           "value":"john@example.com",
+           "is_preferred":true
+        },
+        {
+           "type":"phone",
+           "value":"+1234567890",
+           "is_preferred":false
+        },
+        {
+           "type":"twitter",
+           "value":"@john_doe",
+           "is_preferred":false
+        }
+     ],
+     "preferences":{
+        "preferred_language":"en",
+        "time_zone":"America/New_York",
+        "notification_frequency":"daily",
+        "opt_in_marketing":true
+     },
+     "tags":[
+        
+     ]
+  }
+}

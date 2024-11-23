@@ -1,0 +1,17 @@
+meta {
+  name: Update
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{host}}/ticket/671d1912078d3cc04578c5de/message/671d1912078d3cc04578c5dd
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "content": "New message update"
+  }
+}
