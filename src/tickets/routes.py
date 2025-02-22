@@ -6,7 +6,6 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from src.db.connection import get_database
 from src.models.common import ObjectIdField
-from src.utils.response import AppException, BaseResponse, ErrorDetail, ResponseStatus, create_response
 
 from .models import Ticket, TicketMessage, TicketSchema, UpdateMessageSchema
 from .service import TicketService

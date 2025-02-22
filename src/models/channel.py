@@ -1,13 +1,12 @@
 from datetime import datetime
 from enum import Enum
-from typing import Annotated, Literal, Optional
+from typing import Literal
 
 from bson import ObjectId
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, HttpUrl
-from pydantic_core.core_schema import str_schema
+from pydantic import BaseModel, EmailStr, Field, HttpUrl
 from pymongo.synchronous.database import Database
 
-from .common import NotificationFrequency, PydanticObjectId
+from .common import PydanticObjectId
 
 _CHANNEL_COLLECTION = 'channels'
 
@@ -33,7 +32,7 @@ class SocialMediaChannelConfig(BaseModel):
     platform: Literal['facebook', 'twitter', 'instagram', 'linkedin']
     account_name: str
     access_token: str  # In practice, use secure storage for tokens
-    api_version: Optional[str] = None
+    api_version: str | None = None
 
     async def notify(self, value: str, message: str): ...
 
@@ -41,7 +40,7 @@ class SocialMediaChannelConfig(BaseModel):
 class ChatChannelConfig(BaseModel):
     provider: Literal['web_chat', 'whatsapp', 'telegram']
     api_key: str  # In practice, use secure storage for API keys
-    webhook_url: Optional[HttpUrl] = None
+    webhook_url: HttpUrl | None = None
 
     async def notify(self, value: str, message: str): ...
 

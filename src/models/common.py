@@ -32,6 +32,9 @@ class ObjectIdField(ObjectId):
 
 
 class PydanticObjectId(BaseModel):
+    """Helper class that is used in all model definition.
+    It returns the _id created by MongoDB.
+    """
     id: Annotated[ObjectIdField, Field(alias='_id')]
 
     model_config = ConfigDict(arbitrary_types_allowed=True, populate_by_name=True, json_encoders={ObjectId: str})

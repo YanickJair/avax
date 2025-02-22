@@ -1,14 +1,14 @@
 from functools import cache
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from src.db.connection import get_database
 from src.models.common import ObjectIdField
 from src.utils.response import AppException, BaseResponse, ErrorDetail, ResponseStatus, create_response
 
-from .models import Channel, ChannelSchema, ChannelUpdateSchema
+from .models import Channel, ChannelUpdateSchema
 from .service import ChannelService
 
 router = APIRouter(prefix='/channels')
@@ -72,3 +72,7 @@ async def find_one(_id: ObjectIdField, service: ChannelServiceDep):
             errors=[ErrorDetail(code='INTERNAL_ERROR', message=str(e))],
             status_code=400,
         )
+
+
+@router.post('/my-endpoint')
+async def get_something(): ...

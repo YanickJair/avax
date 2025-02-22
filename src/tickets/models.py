@@ -1,12 +1,12 @@
 from datetime import datetime
 from enum import Enum
+from typing import Annotated
 
 from bson.objectid import ObjectId
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field
 from pymongo.cursor import Optional
 from pymongo.synchronous.database import Database
 
-from src.channel.models import Channel
 from src.customers.models import Customer
 from src.models.common import ObjectIdField, PydanticObjectId, PyObjectId
 
@@ -56,18 +56,19 @@ class UpdateMessageSchema(BaseModel):
 
 class Ticket(BaseModel):
     customer_id: ObjectIdField
-    assigned_agent_id: Optional[ObjectIdField] = Field(
-        ..., description='Agent responsible for the ticket. Id will be assigned when agent is assigned'
+    assigned_agent_id: Optional[ObjectIdField | None] = Field(
+        default=None, description='Agent responsible for the ticket. Id will be assigned when agent is assigned'
     )
     status: TicketStatus = Field(default=TicketStatus.OPEN)
-    priority: TicketPriority = Field(default=TicketPriority.MEDIUM)
-    category: TicketCategory
-    subject: str
-    messages: list[TicketMessage]
+    priority: Optional[TicketPriority] = Field(default=TicketPriority.MEDIUM)
+    category: Optional[TicketCategory] = Field(default=None)
+    subject: Annotated[str, Field(...)]
+    description: Annotated[str | None, Field(default=None, description="Details about what this ticket is about")]
+    messages: Optional[list[TicketMessage]] = Field(default=None)
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
     resolved_at: Optional[datetime] = None
-    tags: Optional[list[str]]
+    tags: Optional[list[str]] = Field(default=None)
 
     model_config = ConfigDict(
         arbitrary_types_allowed=True,

@@ -1,14 +1,14 @@
 from functools import cache
-from typing import Annotated, Optional
+from typing import Annotated
 
 from fastapi import APIRouter, Depends
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from src.db.connection import get_database
-from src.models.common import ObjectIdField, PydanticObjectId, PyObjectId
-from src.utils.response import AppException, BaseResponse, create_response
+from src.models.common import ObjectIdField
+from src.utils.response import BaseResponse, create_response
 
-from .models import Customer, CustomerSchema, CustomerUpdate
+from .models import Customer, CustomerUpdate
 from .service import CustomerService
 
 router = APIRouter(prefix='/customers', tags=['customers', 'customer'])
@@ -74,13 +74,13 @@ async def get_customers(
     service: CustomerServiceDep,
     skip: int = 0,
     limit: int = 10,
-    search: Optional[str] = None,
-    is_active: Optional[bool] = True,
+    search: str | None = None,
+    is_active: bool | None = True,
 ):
     try:
         data = await service.list_all(skip=skip, limit=limit, search=search, is_active=is_active)
         if not data:
             pass
-        return create_response(data=data, message=f'Customers list.')
+        return create_response(data=data, message='Customers list.')
     except Exception as exc:
         print(str(exc))

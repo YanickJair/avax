@@ -1,13 +1,9 @@
 import asyncio
 import logging
 from contextlib import asynccontextmanager
-from functools import wraps
-from typing import Optional
 
 from fastapi import HTTPException
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
-from pymongo import MongoClient
-from pymongo.database import Database
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 
 from settings import DatabaseSettings
@@ -35,8 +31,8 @@ class MongoDBManager:
             self.settings = settings or DatabaseSettings()
             self.uri = self.settings.get_mongodb_uri()
             self.db_name = self.settings.MONGO_DB
-            self.client: Optional[AsyncIOMotorClient] = None
-            self.db: Optional[AsyncIOMotorDatabase] = None
+            self.client: AsyncIOMotorClient | None = None
+            self.db: AsyncIOMotorDatabase | None = None
             self._lock = asyncio.Lock()
 
             # Connection parameters

@@ -1,16 +1,17 @@
 import pytest
 
-from settings import DatabaseSettings
-from src.db.connection import DBClient
+from src.customers.models import ContactMethod, Customer, CustomerPreference
+from src.customers.service import CustomerService
+from src.db.connection import get_database
 from src.models.common import NotificationFrequency
-from src.models.customer import ContactMethod, Customer, CustomerPreference
 
 
 class TestDBClient:
     @pytest.mark.asyncio
     async def test_customer(self):
-        client = DBClient()
-        connection = client.connect()
+        client = await get_database()
+        service = CustomerService(database=client)
+
         new_customer = Customer(
             name='John Doe',
             contact_methods=[
@@ -24,12 +25,13 @@ class TestDBClient:
                 notification_frequency=NotificationFrequency.DAILY.value,
                 opt_in_marketing=True,
             ),
+            is_active=True
         )
-        res = await new_customer.create(client=connection)
+        res = await service.create(new_customer)
         assert res
 
-        res = await Customer.find_one(res.id, client=connection)
+        res = await service.find_one(res.id)
         assert res
 
-        res = await Customer.delete(res.id, client=connection)
+        res = await service.delete(res.id)
         assert res

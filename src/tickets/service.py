@@ -4,12 +4,12 @@ from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from src.models.common import ObjectIdField
-from src.utils.response import AppException, ErrorDetail, ResponseStatus
+from src.utils.response import AppException
 
 from .models import Ticket, TicketMessage, TicketSchema, UpdateMessageSchema
 
 
-class TicketService(object):
+class TicketService:
     def __init__(self, database: AsyncIOMotorDatabase) -> None:
         self._db = database
         self._collection = database.tickets
@@ -19,6 +19,20 @@ class TicketService(object):
         if not result:
             raise AppException(status_code=400, message='Failed to update channel', error_code='INTERNAL_ERROR')
         return TicketSchema(**{'id': result.inserted_id, **ticket.model_dump(by_alias=True)})
+
+    async def update_ticket_analysis(self, ticket_id: ObjectIdField, /, category: str, priority: str) -> TicketSchema:
+        ticket = await self._collection.find_one_and_update(
+            {'_id': ObjectId(ticket_id)},
+            {
+                "$set": {
+                    "updated_at": datetime.now(),
+                    "priority": priority,
+                    "category": category
+                }
+            },
+            return_document=True
+        )
+        return TicketSchema(**ticket)
 
     async def find_one(self, _id: ObjectIdField, /) -> TicketSchema:
         result = await self._collection.find_one({'_id': ObjectId(_id)})

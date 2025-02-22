@@ -1,4 +1,4 @@
-from typing import Generic, Optional, Type, TypeVar
+from typing import Generic, TypeVar
 
 from bson import ObjectId
 from pydantic import BaseModel
@@ -13,7 +13,7 @@ class BaseService:
 
 
 class CRUDService(BaseService, Generic[T]):
-    def __init__(self, database: Database, collection_name: str, model_class: Type[T]):
+    def __init__(self, database: Database, collection_name: str, model_class: type[T]):
         super().__init__(database)
         self.collection = self.db[collection_name]
         self.model_class = model_class
@@ -23,6 +23,6 @@ class CRUDService(BaseService, Generic[T]):
         result = self.collection.insert_one(item_dict)
         return str(result.inserted_id)
 
-    async def get(self, id: str) -> Optional[T]:
+    async def get(self, id: str) -> T | None:
         item = self.collection.find_one({'_id': ObjectId(id)})
         return self.model_class(**item) if item else None

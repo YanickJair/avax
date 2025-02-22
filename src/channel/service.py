@@ -1,14 +1,13 @@
-from typing import Optional
 
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from src.models.common import NotificationFrequency, ObjectIdField, PydanticObjectId
+from src.models.common import ObjectIdField
 
 from .models import Channel, ChannelSchema, ChannelUpdateSchema
 
 
-class ChannelService(object):
+class ChannelService:
     def __init__(self, database: AsyncIOMotorDatabase) -> None:
         self._db = database
         self._collection = database.channels

@@ -1,11 +1,6 @@
 from datetime import datetime
-from typing import Annotated
 
-from bson import ObjectId
-from pydantic import BaseModel, ConfigDict, Field
-from pymongo.synchronous.database import Database
-
-from .common import ObjectIdField
+from pydantic import BaseModel, Field
 
 
 class Agent(BaseModel):

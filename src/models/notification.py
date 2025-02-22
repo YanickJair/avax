@@ -4,9 +4,10 @@ from enum import Enum
 from pydantic import BaseModel, Field
 from pymongo.synchronous.database import Database
 
+from src.customers.models import CustomerSchema
+
 from .channel import ChannelSchema
 from .common import PydanticObjectId
-from .customer import CustomerSchema
 from .interaction import InteractionPriority, InteractionSchema
 
 _NOTIFICATION_COLLECTION = 'notifications'

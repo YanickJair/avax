@@ -1,14 +1,14 @@
-from typing import Optional
+from typing import Any
 
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from src.models.common import NotificationFrequency, ObjectIdField, PydanticObjectId, PyObjectId
+from src.models.common import ObjectIdField
 
 from .models import Customer, CustomerSchema, CustomerUpdate
 
 
-class CustomerService(object):
+class CustomerService:
     def __init__(self, database: AsyncIOMotorDatabase) -> None:
         self._db = database
         self._collection = database.customers
@@ -36,11 +36,14 @@ class CustomerService(object):
         return CustomerSchema(**result)
 
     async def list_all(
-        self, skip: int = 0, limit: int = 10, search: Optional[str] = None, is_active: Optional[bool] = True
+        self, skip: int = 0, limit: int = 10, search: str | None = None, is_active: bool | None = True
     ) -> list[CustomerSchema]:
-        query = {'is_active': is_active}
+        query: dict[str, Any] = {'is_active': is_active}
 
         if search:
-            query['$or'] = [{'name': {'$regex': search, '$options': 'i'}}]
+            query["$or"] = [{'name': {'$regex': search, '$options': 'i'}}]
         customers = await self._collection.find(query).skip(skip).limit(limit).to_list(length=limit)
         return [CustomerSchema(**customer) for customer in customers]
+
+
+__all__ = ["CustomerService"]

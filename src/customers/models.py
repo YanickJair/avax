@@ -1,12 +1,9 @@
 from datetime import datetime
 from typing import Annotated, Literal
 
-from bson import ObjectId
-from pydantic import BaseModel, ConfigDict, Field
-from pymongo.synchronous.database import Database
-from typing_extensions import Optional
+from pydantic import BaseModel, Field
 
-from src.models.common import NotificationFrequency, ObjectIdField, PydanticObjectId, PyObjectId
+from src.models.common import NotificationFrequency, PydanticObjectId
 
 _CUSTOMER_COLLECTION = 'customers'
 
@@ -14,7 +11,7 @@ _CUSTOMER_COLLECTION = 'customers'
 class ContactMethod(BaseModel):
     type: Literal['email', 'phone', 'sms', 'web_chat', 'facebook', 'twitter', 'whatsapp', 'telegram']
     value: str  # e.g., email address, phone number, social media handle
-    is_preferred: Optional[bool] = False
+    is_preferred: bool | None = False
 
 
 class CustomerPreference(BaseModel):
@@ -25,22 +22,22 @@ class CustomerPreference(BaseModel):
 
 
 class Customer(BaseModel):
-    name: str
+    name: str | None = Field(None, description="Customer's name")
     contact_methods: list[ContactMethod]
-    preferences: CustomerPreference
+    preferences: Annotated[CustomerPreference, Field(..., description="Can be set accoring to incoming request")]
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
-    tags: Optional[list[str]] = []
-    is_active: Optional[bool] = Field(True)
+    tags: list[str] | None = []
+    is_active: bool | None = Field(True)
 
 
 class CustomerUpdate(BaseModel):
-    name: Optional[str] = Field(None)
-    contact_methods: Optional[list[ContactMethod]] = Field(None)
-    preferences: Optional[CustomerPreference] = Field(None)
+    name: str | None = Field(None, description="Customer's name")
+    contact_methods: list[ContactMethod] | None = Field(None)
+    preferences: CustomerPreference | None = Field(None)
     updated_at: datetime = Field(default_factory=datetime.now)
-    tags: Optional[list[str]] = Field(None)
-    is_active: Optional[bool | None] = Field(None)
+    tags: list[str] | None = Field(None)
+    is_active: bool | None | None = Field(None)
 
 
 class CustomerSchema(PydanticObjectId, Customer):

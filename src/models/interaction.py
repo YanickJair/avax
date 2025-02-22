@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import Literal, Optional
+from typing import Literal
 
 from pydantic import BaseModel, Field
 from pymongo.synchronous.database import Database
@@ -35,7 +35,7 @@ class InteractionMessage(BaseModel):
 class Interaction(BaseModel):
     customer_id: str
     channel_id: str
-    agent_id: Optional[str] = None
+    agent_id: str | None = None
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
     status: InteractionStatus = InteractionStatus.OPEN

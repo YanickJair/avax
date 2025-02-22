@@ -1,16 +1,21 @@
 # Automate documentation deps
 mkdocs==1.6.1
-mkdocstrings==0.26.1
-mkdocs-material-9.5.40
+mkdocstrings==0.28.1
+mkdocs-material==9.5.40
 
 # Database
 pymongo==4.10.1
+motor==3.7.0
 
 pydantic==2.9.2
-uvicorn==0.31.1
+uvicorn==0.34.0
 fastapi==0.115.0
 pydantic-settings==2.5.2
 
 # tests
 pytest==8.3.3
-pytest-asyncio==0.24.0
+pytest-asyncio==0.25.3
+
+# LLM
+langchain-anthropic==0.3.7
+langchain-community==0.3.7

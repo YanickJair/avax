@@ -1,7 +1,6 @@
-from typing import Optional
 from urllib.parse import quote_plus
 
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 
 
 class DatabaseSettings(BaseSettings):
@@ -10,7 +9,8 @@ class DatabaseSettings(BaseSettings):
     MONGO_DB: str
     MONGO_USER: str
     MONGO_PASSWORD: str
-    MONGO_AUTH_SOURCE: Optional[str] = 'admin'
+    ANTHROPIC_API_KEY: str | None
+    MONGO_AUTH_SOURCE: str | None = 'admin'
 
     def get_mongodb_uri(self) -> str:
         """Constructs the MongoDB URI based on the configuration."""
