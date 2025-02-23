@@ -19,3 +19,8 @@ pytest-asyncio==0.25.3
 # LLM
 langchain-anthropic==0.3.7
 langchain-community==0.3.7
+
+# Email integration
+google-auth-oauthlib==1.2.1
+google-auth-httplib2==0.2.0
+google-api-python-client==2.161.0

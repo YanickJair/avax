@@ -5,7 +5,7 @@
 # pip install pytest-mock
 import pytest
 
-from src.agents.ticket_tools import TicketAgent
+from src.agents.ticket_agent import TicketAgent
 from src.customers.service import CustomerService
 from src.models.common import ObjectIdField
 from src.tickets.models import Ticket, TicketCategory, TicketSchema
